@@ -1,0 +1,26 @@
+{
+  "name": "sql-employee-tracker",
+  "version": "1.0.0",
+  "description": "Employee Tracking SQL App",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MarkJNap/SQL-Employee-Tracker.git"
+  },
+  "author": "Mark",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MarkJNap/SQL-Employee-Tracker/issues"
+  },
+  "homepage": "https://github.com/MarkJNap/SQL-Employee-Tracker#readme",
+  "dependencies": {
+    "console.table": "^0.10.0",
+    "dotenv": "^16.0.3",
+    "inquirer": "^8.2.4",
+    "mysql2": "^3.1.2"
+  }
+}

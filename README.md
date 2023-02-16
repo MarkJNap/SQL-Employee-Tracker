@@ -4,7 +4,8 @@
 
 ## Description
 
-This Content Management System (CMS) Employee Tracker application allows the user to manage and create their employee database without needing much knowledge about MySQL and databases. In creating this application I got very valuable experience using npm packages like `MySQL2`, `Inquirer`, `dotenv` and `console.table`. There was quite a few different ways to approach this project and it took me a little time to figure out my methods. But I got there in the end and am happy with the results. With more time I would like to add valiation and attempt more of the bonus objectives as it stands I've only done `View employees by manager`.
+This Content Management System (CMS) Employee Tracker application allows the user to manage and create their employee database without needing much knowledge about MySQL and databases. In creating this application I got very valuable experience using npm packages like `MySQL2`, `Inquirer`, `dotenv` and `console.table`. There was quite a few different ways to approach this project and it took me a little time to figure out my methods. But I got there in the end and am happy with the results.
+With more time I would like to add valiation and attempt more of the bonus objectives as it stands I've only done `View employees by manager`.
 
 ## Installation
 
@@ -18,9 +19,10 @@ After cloning the repository and navigating to correct folder in GitBash the use
 
 Be sure to modify the `.env.EXAMPLE` file to have mysql work properly.
 
-Run `mysql -u root -p` and enter your password,
-Then run `SOURCE db/schema.sql` followed by `SOURCE db/seeds.sql`,
-Then quit out of MySQL.
+1. Run `mysql -u root -p` and enter your password
+2. Then run `SOURCE db/schema.sql`
+3. Followed by `SOURCE db/seeds.sql`
+4. Then quit out of MySQL.
 
 ## Usage
 
@@ -28,8 +30,7 @@ To begin using this application type `npm start` in the correct folder.
 
 This will present the user with prompts for viewing departments, roles and employee information, with the ability to also add new departments, roles and employees, and finally to be able to update an existing employee's role.
 
-Link to Demo Video: LINK GOES HERE
-
+Link to Demo Video: https://drive.google.com/file/d/12BdvpvBxLIiKzVQMAy6vfDZ_tFYwY6fc/view
 ## Credits
 
 Mark Napolitano

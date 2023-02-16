@@ -43,24 +43,13 @@ THEN I am prompted to enter the employee’s first name, last name, role, and ma
 WHEN I choose to update an employee role
 THEN I am prompted to select an employee to update and their new role and this information is updated in the database ✅
 
-
-## Mock-Up
-
-The following video shows an example of the application being used from the command line:
-
-[![A video thumbnail shows the command-line employee management application with a play button overlaying the view.](/assets/12-sql-homework-video-thumbnail.png)](https://2u-20.wistia.com/medias/2lnle7xnpk)
-
 ## Getting Started
 
 This Challenge will require a video submission.
 
-Use the [MySQL2 package](https://www.npmjs.com/package/mysql2) to connect to your MySQL database and perform queries.
-the [Inquirer package](https://www.npmjs.com/package/inquirer/v/8.2.4) to interact with the user via the command line.
-The [console.table package](https://www.npmjs.com/package/console.table) to print MySQL rows to the console.
-
-Design the database schema as shown in the following image:
-
-![Database schema includes tables labeled “employee,” role,” and “department.”](/Assets/12-sql-homework-demo-01.png)
+Use the [MySQL2 package](https://www.npmjs.com/package/mysql2) to connect to your MySQL database and perform queries. ✅
+the [Inquirer package](https://www.npmjs.com/package/inquirer/v/8.2.4) to interact with the user via the command line. ✅
+The [console.table package](https://www.npmjs.com/package/console.table) to print MySQL rows to the console. ✅
 
 As the image illustrates, your schema should contain the following three tables:
 
@@ -100,7 +89,7 @@ Try to add some additional functionality to your application, such as the abilit
 
 * Update employee managers.
 
-* View employees by manager.
+* View employees by manager. ✅
 
 * View employees by department.
 
@@ -110,59 +99,48 @@ Try to add some additional functionality to your application, such as the abilit
 
 ## Grading Requirements
 
-> **Note**: If a Challenge assignment submission is marked as “0”, it is considered incomplete and will not count towards your graduation requirements. Examples of incomplete submissions include the following:
->
-> * A repository that has no code
->
-> * A repository that includes a unique name but nothing else
->
-> * A repository that includes only a README file but nothing else
->
-> * A repository that only includes starter code
-
-This Challenge is graded based on the following criteria:
 
 ### Deliverables: 10%
 
-* Your GitHub repository containing your application code.
+* Your GitHub repository containing your application code. ✅
 
 ### Walkthrough Video: 27%
 
-* A walkthrough video that demonstrates the functionality of the employee tracker must be submitted, and a link to the video should be included in your README file.
+* A walkthrough video that demonstrates the functionality of the employee tracker must be submitted, and a link to the video should be included in your README file. ✅
 
-* The walkthrough video must show all of the technical acceptance criteria being met.
+* The walkthrough video must show all of the technical acceptance criteria being met. ✅
 
-* The walkthrough video must demonstrate how a user would invoke the application from the command line.
+* The walkthrough video must demonstrate how a user would invoke the application from the command line. ✅
 
-* The walkthrough video must demonstrate a functional menu with the options outlined in the acceptance criteria.
+* The walkthrough video must demonstrate a functional menu with the options outlined in the acceptance criteria. ✅
 
 ### Technical Acceptance Criteria: 40%
 
 * Satisfies all of the preceding acceptance criteria plus the following:
 
-    * Uses the [Inquirer package](https://www.npmjs.com/package/inquirer/v/8.2.4).
+    * Uses the [Inquirer package](https://www.npmjs.com/package/inquirer/v/8.2.4). ✅
 
-    * Uses the [MySQL2 package](https://www.npmjs.com/package/mysql2) to connect to a MySQL database.
+    * Uses the [MySQL2 package](https://www.npmjs.com/package/mysql2) to connect to a MySQL database. ✅
 
-    * Uses the [console.table package](https://www.npmjs.com/package/console.table) to print MySQL rows to the console.
+    * Uses the [console.table package](https://www.npmjs.com/package/console.table) to print MySQL rows to the console. ✅
 
 * Follows the table schema outlined in the Challenge instructions.
 
 ### Repository Quality: 13%
 
-* Repository has a unique name.
+* Repository has a unique name. ✅
 
-* Repository follows best practices for file structure and naming conventions.
+* Repository follows best practices for file structure and naming conventions. ✅
 
-* Repository follows best practices for class/id naming conventions, indentation, quality comments, etc.
+* Repository follows best practices for class/id naming conventions, indentation, quality comments, etc. ✅
 
-* Repository contains multiple descriptive commit messages.
+* Repository contains multiple descriptive commit messages. ✅
 
-* Repository contains a high-quality README with description and a link to a walkthrough video.
+* Repository contains a high-quality README with description and a link to a walkthrough video. ✅
 
 ### Application Quality 10%
 
-* The application user experience is intuitive and easy to navigate.
+* The application user experience is intuitive and easy to navigate. ✅
 
 ### Bonus
 
@@ -172,7 +150,7 @@ Fulfilling any of the following can add up to 20 points to your grade. Note that
 
 * Application allows users to view employees by manager (2 points).
 
-* Application allows users to view employees by department (2 points).
+* Application allows users to view employees by department (2 points). ✅
 
 * Application allows users to delete departments, roles, and employees (2 points for each).
 

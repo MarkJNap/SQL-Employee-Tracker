@@ -3,6 +3,7 @@ require("console.table");
 
 const db = require("./config/connections");
 
+// Starting the app
 function menu() {
   inquirer
     .prompt({
@@ -64,9 +65,10 @@ function menu() {
       }
     });
 }
-
+// Initialize
 menu();
 
+// Views a table of all departments
 viewDepartments = () => {
   db.query(
     `SELECT id AS "Department ID", department_name AS "Department Name" 
@@ -79,6 +81,7 @@ viewDepartments = () => {
   );
 };
 
+// Views a table of all roles
 viewRoles = () => {
   db.query(
     `SELECT role.id AS "Role ID", role.title AS "Job Title", CONCAT('$', FORMAT (role.salary, 0)) AS Salary, department.department_name AS Department 
@@ -92,6 +95,7 @@ viewRoles = () => {
   );
 };
 
+// Views a table of all employees
 viewEmployees = () => {
   db.query(
     `SELECT e.id AS "Employee ID", e.first_name AS "First Name", e.last_name AS "Last Name", role.title AS "Job Title", CONCAT('$', FORMAT (role.salary, 0)) AS Salary, department.department_name AS Department, CONCAT(m.first_name, ' ', m.last_name) AS Manager 
@@ -107,6 +111,7 @@ viewEmployees = () => {
   );
 };
 
+// Lets a user update an employee's role
 updateEmployeesRole = () => {
   let employeeArray = [];
   let rolesArray = [];
@@ -144,6 +149,8 @@ updateEmployeesRole = () => {
               name: role.title,
               value: role.id,
             }));
+
+            // Checks if the user has selected the right employee
             inquirer
               .prompt([
                 {
@@ -187,6 +194,7 @@ updateEmployeesRole = () => {
     });
 };
 
+// Lets the user add a new department
 addDepartment = () => {
   inquirer
     .prompt({
@@ -215,6 +223,7 @@ addDepartment = () => {
     });
 };
 
+// Lets the user add a new role
 addRole = () => {
   let departmentsArray = [];
   db.query(`SELECT * FROM department`, (err, res) => {
@@ -261,6 +270,7 @@ addRole = () => {
   });
 };
 
+// Lets the user add a new employee
 addEmployee = () => {
   let rolesArray = [];
   let managerArray = [];
@@ -331,6 +341,7 @@ addEmployee = () => {
   });
 };
 
+// View a table of employees by manager selected
 employeeByManager = () => {
   let managerArray = [];
   db.query(

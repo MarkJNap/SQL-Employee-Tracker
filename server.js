@@ -18,6 +18,7 @@ function menu() {
             "Add a department",
             "Add a role",
             "Add an employee",
+            "Show employees by manager",
             "Quit application",
         ],
         loop: false,
@@ -49,13 +50,16 @@ function menu() {
                 addRole();
                 break;
             case "Add an employee":
-                console.log("This is adding an employee");
+                console.log("\n    ---------------------------------\n    You are now adding a new employee\n    ---------------------------------");
                 addEmployee();
+                break;
+            case "Show employees by manager":
+                employeeByManager();
                 break;
             case "Quit application":
                 console.log("Closing down now...\nThank you for using our application!");
                 db.end();
-                break;
+                process.exit(0);
             default:
                 break;
         }
@@ -120,7 +124,7 @@ updateEmployeesRole = () => {
                     }
                 ));
                 if (employeeArray.length === 0) {
-                    console.log("That Id is not in the database");
+                    console.log("\n    ------------------------------\n    That id is not in the database\n    ------------------------------");
                     return updateEmployeesRole()
                 }
                 console.log(`\n`);
@@ -237,6 +241,7 @@ addRole = () => {
 addEmployee = () => {
     let rolesArray = [];
     let managerArray = [];
+    const isManager = {name:'Manager', value:null};
     db.query(`SELECT role.id, role.title FROM role`, (err, res) => {
         if (err) throw err;
         rolesArray = res.map(role => (
@@ -255,6 +260,7 @@ addEmployee = () => {
                     value: manager.manager_id
                 }
                 ))
+                managerArray.unshift(isManager);
                 inquirer.prompt([
                     {
                         type: "input",
@@ -276,7 +282,7 @@ addEmployee = () => {
                     {
                         type: "list",
                         name: "employeeManager",
-                        message: "Who is the employee's manager?",
+                        message: "Who is the employee's manager?\n  If they are the manager select Manager.\n  ----------------------------",
                         choices: managerArray,
                         loop: false,
                     }
@@ -291,3 +297,39 @@ addEmployee = () => {
             })
         })
     }
+
+employeeByManager = () => {
+    let managerArray = [];
+    db.query(`SELECT DISTINCT e.manager_id, CONCAT(m.first_name, ' ', m.last_name) AS Manager 
+        FROM employee e
+        JOIN employee m ON e.manager_id = m.id`, (err, res) => {
+            if (err) throw err;
+            managerArray = res.map(manager => (
+                {
+                    name: manager.Manager,
+                    value: manager.manager_id
+                }
+            ))
+            inquirer.prompt([
+                {
+                    type: "list",
+                    name: "manager_id",
+                    message: "Which Manager do you want to view Employees for?",
+                    choices: managerArray,
+                    loop: false
+                }
+            ])
+            .then((data) => {
+                db.query(`SELECT e.first_name AS "First Name", e.last_name AS "Last Name", CONCAT(m.first_name, ' ', m.last_name) AS Manager
+                FROM employee e
+                INNER JOIN employee m
+                ON e.manager_id = m.id 
+                WHERE e.manager_id = ?`, data.manager_id, (err, res) => {
+                    if (err) throw err;
+                    console.log("\n");
+                    console.table(res);
+                    return menu()
+                })
+            })   
+        })
+}

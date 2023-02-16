@@ -1,8 +1,6 @@
 const inquirer = require("inquirer");
 require('console.table');
-const mysql = require('mysql2');
 
-// const { db } = require('./config/connections');
 const db = require('./config/connections');
 
 
@@ -25,7 +23,6 @@ function menu() {
         loop: false,
     })
     .then((data) => {
-        // console.log(data.menuprompt);
         switch (data.menuprompt) {
             case "View all departments":
                 console.log("\n    ------------------------------------\n    This is all your current departments\n    ------------------------------------");
@@ -165,8 +162,8 @@ updateEmployeesRole = () => {
                                 .then((data) => {
                                     db.query(`UPDATE employee SET role_id = ? WHERE id = ?`, [data.roleConfirm, inputId], (err, res) => {
                                         if (err) throw err;
-                                        console.log("\nUpdated employee's role successfully!\n");
-                                        return menu();
+                                        console.log("\n    -------------------------------------\n    Updated employee's role successfully!\n    -------------------------------------");
+                                        viewEmployees();
                                     })
                                 })
                         })
@@ -199,7 +196,7 @@ addDepartment = () => {
 }
 
 addRole = () => {
-    departmentsArray = [];
+    let departmentsArray = [];
     db.query(`SELECT * FROM department`, (err, res) => {
         if (err) throw err;
         departmentsArray = res.map(department => (
@@ -224,6 +221,7 @@ addRole = () => {
                 name: "roledepartment",
                 message: "What department does this role belong to?",
                 choices: departmentsArray,
+                loop: false,
             }
         ])
         .then((data) => {
@@ -235,3 +233,61 @@ addRole = () => {
         })
     })
 }
+
+addEmployee = () => {
+    let rolesArray = [];
+    let managerArray = [];
+    db.query(`SELECT role.id, role.title FROM role`, (err, res) => {
+        if (err) throw err;
+        rolesArray = res.map(role => (
+            {
+                name: role.title,
+                value: role.id
+            }
+        ))
+        db.query(`SELECT DISTINCT e.manager_id, CONCAT(m.first_name, ' ', m.last_name) AS Manager 
+        FROM employee e
+        JOIN employee m ON e.manager_id = m.id`, (err, res) => {
+            if (err) throw err;
+            managerArray = res.map(manager => (
+                {
+                    name: manager.Manager,
+                    value: manager.manager_id
+                }
+                ))
+                inquirer.prompt([
+                    {
+                        type: "input",
+                        name: "firstname",
+                        message: "Enter the employee's first name.",
+                    },
+                    {
+                        type: "input",
+                        name: "lastname",
+                        message: "Enter the employee's last name.",
+                    },
+                    {
+                        type: "list",
+                        name: "employeeRole",
+                        message: "What is the employee's role?",
+                        choices: rolesArray,
+                        loop: false,
+                    },
+                    {
+                        type: "list",
+                        name: "employeeManager",
+                        message: "Who is the employee's manager?",
+                        choices: managerArray,
+                        loop: false,
+                    }
+                ])
+                .then((data) => {
+                    db.query(`INSERT INTO employee SET ?`, {first_name: data.firstname, last_name: data.lastname, role_id: data.employeeRole, manager_id: data.employeeManager}, (err, res) => {
+                        if (err) throw err;
+                    })
+                    console.log("\n    --------------------------------\n    New Employee successfully Added!\n    --------------------------------");
+                    viewEmployees()
+                })
+            })
+        })
+    }

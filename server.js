@@ -28,28 +28,27 @@ function menu() {
         // console.log(data.menuprompt);
         switch (data.menuprompt) {
             case "View all departments":
-                console.log("\nThis is all your current departments\n------------------------------------");
+                console.log("\n    ------------------------------------\n    This is all your current departments\n    ------------------------------------");
                 viewDepartments();
                 break;
             case "View all roles":
-                console.log("\nThis is viewing all available roles\n------------------------------------");
+                console.log("\n    -----------------------------------\n    This is viewing all available roles\n    -----------------------------------");
                 viewRoles();
                 break;
             case "View all employees":
-                console.log("\nThis is viewing all employees information\n-----------------------------------------");
-
+                console.log("\n    --------------------------------------------\n    This is viewing every employee's information\n    --------------------------------------------");
                 viewEmployees();
                 break;
             case "Update an employee role":
-                console.log("This is updating an employee role");
+                console.log("\n    ---------------------------------------\n    You are now updating an employee's role\n    ---------------------------------------");
                 updateEmployeesRole();
                 break;
             case "Add a department":
-                console.log("This is adding a department");
+                console.log("\n    -------------------------------------\n    You are now creating a new department\n    -------------------------------------");
                 addDepartment();
                 break;
             case "Add a role":
-                console.log("This is adding a role");
+                console.log("\n    -------------------------------\n    You are now creating a new role\n    -------------------------------");
                 addRole();
                 break;
             case "Add an employee":
@@ -74,7 +73,7 @@ viewDepartments = () => {
     FROM department`, function (err, res) {
         if (err) throw err;
         console.table(res)
-    menu();
+    return menu();
     })
 }
 
@@ -84,7 +83,7 @@ viewRoles = () => {
     JOIN department ON role.department_id = department.id;`, function (err, res) {
         if (err) throw err;
         console.table(res);
-    menu();
+    return menu();
     })
 }
 
@@ -93,10 +92,10 @@ viewEmployees = () => {
     FROM employee e
     LEFT JOIN role ON e.role_id = role.id 
     LEFT JOIN department ON role.department_id = department.id
-    LEFT JOIN employee m ON m.id = e.manager_id`, function (err, res) {
+    LEFT JOIN employee m ON e.manager_id = m.id`, function (err, res) {
         if (err) throw err;
         console.table(res);
-    menu();
+    return menu();
     })
 }
 
@@ -127,8 +126,8 @@ updateEmployeesRole = () => {
                     console.log("That Id is not in the database");
                     return updateEmployeesRole()
                 }
+                console.log(`\n`);
                 console.table(res);
-
                 db.query("SELECT * FROM role", (err, res) => {
                     if (err) throw err;
                     rolesArray = res.map(role => (
@@ -152,8 +151,7 @@ updateEmployeesRole = () => {
                         .then((data) => {
                             if (data.employeeConfirm === "No") {
                                 console.log("\nGoing back to the main menu.\n");
-                                menu();
-                                return;
+                                return menu();
                             }
                             inquirer.prompt([
                                 {
@@ -168,12 +166,72 @@ updateEmployeesRole = () => {
                                     db.query(`UPDATE employee SET role_id = ? WHERE id = ?`, [data.roleConfirm, inputId], (err, res) => {
                                         if (err) throw err;
                                         console.log("\nUpdated employee's role successfully!\n");
-                                        menu();
-                                        return;
+                                        return menu();
                                     })
                                 })
                         })
                 })
             })
         })
+}
+
+addDepartment = () => {
+    inquirer.prompt({
+        type: "input",
+        name: "newDepartment",
+        message: "What is the name of the department you would like to add?",
+        validate: newDepartment => {
+            if (newDepartment) {
+                return true;
+            } else {
+                console.log("\nPlease enter a department name.");
+                return false;
+            }
+        }
+    })
+    .then((data) => {
+        db.query(`INSERT INTO department SET ?`, {department_name: data.newDepartment}, (err, res) => {
+            if (err) throw err;
+        })
+        console.log("\n    ------------------------------------\n    New department successfully created!\n    ------------------------------------");
+        viewDepartments();
+    })
+}
+
+addRole = () => {
+    departmentsArray = [];
+    db.query(`SELECT * FROM department`, (err, res) => {
+        if (err) throw err;
+        departmentsArray = res.map(department => (
+            {
+                name: department.department_name,
+                value: department.id
+            }
+        ))
+        inquirer.prompt([
+            {
+                type: "input",
+                name: "rolename",
+                message: "What is the name of the role you would like to add?",
+            },
+            {
+                type: "input",
+                name: "rolesalary",
+                message: "What is the salary for this role?",
+            },
+            {
+                type: "list",
+                name: "roledepartment",
+                message: "What department does this role belong to?",
+                choices: departmentsArray,
+            }
+        ])
+        .then((data) => {
+            db.query(`INSERT INTO role SET ?`, {title: data.rolename, salary: data.rolesalary, department_id: data.roledepartment}, (err, res) => {
+                if (err) throw err;
+            })
+            console.log("\n    ------------------------------\n    New role successfully created!\n    ------------------------------");
+            viewRoles()
+        })
+    })
 }
